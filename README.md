@@ -6,11 +6,11 @@ A software simulation of an automated tank system built with OpenPLC and Node-RE
 
 ### OpenPLC project and high-level alarm logic
 
-![OpenPLC Editor showing the tank-control project and ladder-logic alarm](docs/openplc-editor.png)
+![OpenPLC Editor showing the tank-control project and ladder-logic alarm](docs/openplc-editor.jpg)
 
 ### Node-RED operator dashboard
 
-![Node-RED dashboard for monitoring and controlling the simulated tank](docs/node-red-dashboard.png)
+![Node-RED dashboard for monitoring and controlling the simulated tank](docs/node-red-dashboard.jpg)
 
 ## What it does
 
