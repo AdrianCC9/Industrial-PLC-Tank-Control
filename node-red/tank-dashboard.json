@@ -1,0 +1,766 @@
+[
+  {
+    "id": "4a4cd26959b0ef8d",
+    "type": "tab",
+    "label": "Tank Control HMI",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "8f983c32e9c13fcf",
+    "type": "modbus-client",
+    "name": "OpenPLC Runtime (local)",
+    "clienttype": "tcp",
+    "bufferCommands": true,
+    "stateLogEnabled": false,
+    "queueLogEnabled": false,
+    "failureLogEnabled": true,
+    "tcpHost": "127.0.0.1",
+    "tcpPort": "5020",
+    "tcpType": "DEFAULT",
+    "serialPort": "/dev/ttyUSB",
+    "serialType": "RTU-BUFFERD",
+    "serialBaudrate": 9600,
+    "serialDatabits": 8,
+    "serialStopbits": 1,
+    "serialParity": "none",
+    "serialConnectionDelay": 100,
+    "serialAsciiResponseStartDelimiter": "0x3A",
+    "unit_id": 1,
+    "commandDelay": 1,
+    "clientTimeout": 1000,
+    "reconnectOnTimeout": true,
+    "reconnectTimeout": 2000,
+    "parallelUnitIdsAllowed": true,
+    "showErrors": false,
+    "showWarnings": true,
+    "showLogs": true
+  },
+  {
+    "id": "773e0df9ca573e2f",
+    "type": "ui-base",
+    "name": "Industrial PLC Dashboard",
+    "path": "/dashboard",
+    "appIcon": "",
+    "includeClientData": true,
+    "acceptsClientConfig": [
+      "ui-notification",
+      "ui-control"
+    ],
+    "showPathInSidebar": false,
+    "headerContent": "page",
+    "navigationStyle": "default",
+    "titleBarStyle": "default",
+    "showReconnectNotification": true,
+    "notificationDisplayTime": 1,
+    "showDisconnectNotification": true,
+    "allowInstall": false
+  },
+  {
+    "id": "45156f461aa6a9c1",
+    "type": "ui-theme",
+    "name": "Default Theme",
+    "colors": {
+      "surface": "#fcfcfd",
+      "primary": "#0d74ce",
+      "bgPage": "#f9f9fb",
+      "groupBg": "#ffffff",
+      "groupOutline": "#d9d9e0"
+    },
+    "sizes": {
+      "density": "default",
+      "pagePadding": "12px",
+      "groupGap": "12px",
+      "groupBorderRadius": "4px",
+      "widgetGap": "12px"
+    }
+  },
+  {
+    "id": "a9dede3297db449d",
+    "type": "ui-group",
+    "name": "Tank Monitoring",
+    "page": "6d7fc32cd2f221fd",
+    "width": 6,
+    "height": 1,
+    "order": 1,
+    "showTitle": true,
+    "className": "",
+    "visible": "true",
+    "disabled": "false",
+    "groupType": "default",
+    "keepLoaded": false,
+    "tab": ""
+  },
+  {
+    "id": "6d7fc32cd2f221fd",
+    "type": "ui-page",
+    "name": "Tank Control",
+    "ui": "773e0df9ca573e2f",
+    "path": "/tank-control",
+    "icon": "home",
+    "layout": "grid",
+    "theme": "45156f461aa6a9c1",
+    "breakpoints": [
+      {
+        "name": "Default",
+        "px": "0",
+        "cols": "3"
+      },
+      {
+        "name": "Tablet",
+        "px": "576",
+        "cols": "6"
+      },
+      {
+        "name": "Small Desktop",
+        "px": "768",
+        "cols": "9"
+      },
+      {
+        "name": "Desktop",
+        "px": "1024",
+        "cols": "12"
+      }
+    ],
+    "tabs": [],
+    "order": 1,
+    "className": "",
+    "visible": "true",
+    "disabled": "false"
+  },
+  {
+    "id": "05c716c5b50d56e7",
+    "type": "modbus-read",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Read Tank Data",
+    "topic": "",
+    "showStatusActivities": false,
+    "logIOActivities": false,
+    "showErrors": false,
+    "showWarnings": true,
+    "unitid": "1",
+    "dataType": "HoldingRegister",
+    "adr": "0",
+    "quantity": "2",
+    "rate": "1",
+    "rateUnit": "s",
+    "delayOnStart": false,
+    "enableDeformedMessages": false,
+    "startDelayTime": "",
+    "server": "8f983c32e9c13fcf",
+    "useIOFile": false,
+    "ioFile": "",
+    "useIOForPayload": false,
+    "emptyMsgOnFail": false,
+    "x": 160,
+    "y": 140,
+    "wires": [
+      [
+        "e8ca9fd8a2c35169"
+      ],
+      [
+        "2bfca382811d2331",
+        "baa98a174859aa82"
+      ]
+    ]
+  },
+  {
+    "id": "2bfca382811d2331",
+    "type": "debug",
+    "z": "4a4cd26959b0ef8d",
+    "name": "debug 1",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 440,
+    "y": 160,
+    "wires": []
+  },
+  {
+    "id": "e8ca9fd8a2c35169",
+    "type": "function",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Extract Tank Level",
+    "func": "if (!Array.isArray(msg.payload)) {\n    return null;\n}\n\nmsg.payload = Number(msg.payload[0]);\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 450,
+    "y": 100,
+    "wires": [
+      [
+        "1953148bb2c3a5fc",
+        "e0fbe32d868a4ba2"
+      ]
+    ]
+  },
+  {
+    "id": "1953148bb2c3a5fc",
+    "type": "ui-gauge",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Tank Level Gauge",
+    "group": "a9dede3297db449d",
+    "order": 4,
+    "value": "payload",
+    "valueType": "msg",
+    "width": 3,
+    "height": 3,
+    "gtype": "gauge-tank",
+    "gstyle": "needle",
+    "title": "Tank Level",
+    "alwaysShowTitle": false,
+    "floatingTitlePosition": "top-left",
+    "units": "%",
+    "icon": "",
+    "prefix": "",
+    "suffix": "",
+    "segments": [
+      {
+        "from": "0",
+        "color": "#a8f5ff",
+        "text": "",
+        "textType": "label"
+      },
+      {
+        "from": "15",
+        "color": "#55dbec",
+        "text": "",
+        "textType": "label"
+      },
+      {
+        "from": "35",
+        "color": "#53b4fd",
+        "text": "",
+        "textType": "label"
+      },
+      {
+        "from": "50",
+        "color": "#2397d1",
+        "text": "",
+        "textType": "label"
+      }
+    ],
+    "min": 0,
+    "max": "100",
+    "sizeThickness": 16,
+    "sizeGap": 4,
+    "sizeKeyThickness": 8,
+    "styleRounded": true,
+    "styleGlow": false,
+    "className": "",
+    "x": 710,
+    "y": 100,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "e0fbe32d868a4ba2",
+    "type": "ui-chart",
+    "z": "4a4cd26959b0ef8d",
+    "group": "a9dede3297db449d",
+    "name": "",
+    "label": "Tank Level History",
+    "order": 5,
+    "chartType": "line",
+    "category": "topic",
+    "categoryType": "msg",
+    "xAxisLabel": "",
+    "xAxisProperty": "",
+    "xAxisPropertyType": "timestamp",
+    "xAxisType": "time",
+    "xAxisFormat": "",
+    "xAxisFormatType": "auto",
+    "xmin": "",
+    "xmax": "",
+    "yAxisLabel": "",
+    "yAxisProperty": "payload",
+    "yAxisPropertyType": "msg",
+    "ymin": "",
+    "ymax": "",
+    "bins": 10,
+    "action": "append",
+    "stackSeries": false,
+    "pointShape": "circle",
+    "pointRadius": 4,
+    "showLegend": true,
+    "removeOlder": 1,
+    "removeOlderUnit": "3600",
+    "removeOlderPoints": "",
+    "colors": [
+      "#0095ff",
+      "#ff0000",
+      "#ff7f0e",
+      "#2ca02c",
+      "#a347e1",
+      "#d62728",
+      "#ff9896",
+      "#9467bd",
+      "#c5b0d5"
+    ],
+    "textColor": [
+      "#666666"
+    ],
+    "textColorDefault": true,
+    "gridColor": [
+      "#e5e5e5"
+    ],
+    "gridColorDefault": true,
+    "width": 6,
+    "height": 8,
+    "className": "",
+    "interpolation": "linear",
+    "x": 730,
+    "y": 200,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "baa98a174859aa82",
+    "type": "function",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Extract Cycle Count",
+    "func": "msg.payload = Number(msg.payload.data[1]);\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 480,
+    "y": 260,
+    "wires": [
+      [
+        "1d035a33acc8f218"
+      ]
+    ]
+  },
+  {
+    "id": "1d035a33acc8f218",
+    "type": "ui-text",
+    "z": "4a4cd26959b0ef8d",
+    "group": "a9dede3297db449d",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "Cycle Counter",
+    "label": "Completed Cycles",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": false,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "x": 760,
+    "y": 260,
+    "wires": []
+  },
+  {
+    "id": "ade6f266173cebe3",
+    "type": "modbus-read",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Read Valve States",
+    "topic": "",
+    "showStatusActivities": false,
+    "logIOActivities": false,
+    "showErrors": false,
+    "showWarnings": true,
+    "unitid": "1",
+    "dataType": "Coil",
+    "adr": "0",
+    "quantity": "2",
+    "rate": "1",
+    "rateUnit": "s",
+    "delayOnStart": false,
+    "enableDeformedMessages": false,
+    "startDelayTime": "",
+    "server": "8f983c32e9c13fcf",
+    "useIOFile": false,
+    "ioFile": "",
+    "useIOForPayload": false,
+    "emptyMsgOnFail": false,
+    "x": 170,
+    "y": 360,
+    "wires": [
+      [
+        "7b9c859f3ea787a5"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "7b9c859f3ea787a5",
+    "type": "function",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Decode Values",
+    "func": "const coils = Array.isArray(msg.payload)\n    ? msg.payload\n    : msg.payload?.data;\n\nif (!Array.isArray(coils) || coils.length < 2) {\n    return null;\n}\n\nreturn [\n    { payload: coils[0] ? \"OPEN\" : \"CLOSED\" },\n    { payload: coils[1] ? \"OPEN\" : \"CLOSED\" }\n];\n",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 460,
+    "y": 360,
+    "wires": [
+      [
+        "f0ae2c05ea254a8b"
+      ],
+      [
+        "1869b89af219909d"
+      ]
+    ]
+  },
+  {
+    "id": "f0ae2c05ea254a8b",
+    "type": "ui-text",
+    "z": "4a4cd26959b0ef8d",
+    "group": "a9dede3297db449d",
+    "order": 6,
+    "width": 0,
+    "height": 0,
+    "name": "Fill Valve",
+    "label": "Fill Valve",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": false,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "x": 720,
+    "y": 320,
+    "wires": []
+  },
+  {
+    "id": "1869b89af219909d",
+    "type": "ui-text",
+    "z": "4a4cd26959b0ef8d",
+    "group": "a9dede3297db449d",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "name": "Drain Valve",
+    "label": "Drain Valve",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": false,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "x": 730,
+    "y": 400,
+    "wires": []
+  },
+  {
+    "id": "6afc740f556b3d55",
+    "type": "ui-switch",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Automatic Mode",
+    "label": "Automatic Mode",
+    "group": "a9dede3297db449d",
+    "order": 7,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "decouple": false,
+    "topic": "topic",
+    "topicType": "msg",
+    "style": "",
+    "className": "",
+    "layout": "row-spread",
+    "clickableArea": "switch",
+    "onvalue": "true",
+    "onvalueType": "bool",
+    "onicon": "",
+    "oncolor": "",
+    "offvalue": "false",
+    "offvalueType": "bool",
+    "officon": "",
+    "offcolor": "",
+    "x": 170,
+    "y": 520,
+    "wires": [
+      [
+        "3a90329ef73264ba"
+      ]
+    ]
+  },
+  {
+    "id": "bc8c487f2bc3a746",
+    "type": "ui-switch",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Simulated Stop",
+    "label": "Simulated Stop",
+    "group": "a9dede3297db449d",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "decouple": false,
+    "topic": "topic",
+    "topicType": "msg",
+    "style": "",
+    "className": "",
+    "layout": "row-spread",
+    "clickableArea": "switch",
+    "onvalue": "true",
+    "onvalueType": "bool",
+    "onicon": "",
+    "oncolor": "",
+    "offvalue": "false",
+    "offvalueType": "bool",
+    "officon": "",
+    "offcolor": "",
+    "x": 180,
+    "y": 600,
+    "wires": [
+      [
+        "bad1cd34fc221cc3"
+      ]
+    ]
+  },
+  {
+    "id": "3a90329ef73264ba",
+    "type": "function",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Write AutoRun",
+    "func": "msg.payload = {\n    value: Boolean(msg.payload),\n    fc: 5,\n    unitid: 1,\n    address: 8,\n    quantity: 1\n};\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 420,
+    "y": 520,
+    "wires": [
+      [
+        "317123e0b7860c66"
+      ]
+    ]
+  },
+  {
+    "id": "bad1cd34fc221cc3",
+    "type": "function",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Write StopCmd",
+    "func": "\nmsg.payload = {\n    value: Boolean(msg.payload),\n    fc: 5,\n    unitid: 1,\n    address: 9,\n    quantity: 1\n};\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 420,
+    "y": 600,
+    "wires": [
+      [
+        "2f27c3249fded9f5"
+      ]
+    ]
+  },
+  {
+    "id": "317123e0b7860c66",
+    "type": "modbus-flex-write",
+    "z": "4a4cd26959b0ef8d",
+    "name": "",
+    "showStatusActivities": false,
+    "showErrors": false,
+    "showWarnings": true,
+    "server": "8f983c32e9c13fcf",
+    "emptyMsgOnFail": false,
+    "keepMsgProperties": false,
+    "delayOnStart": false,
+    "startDelayTime": "",
+    "x": 690,
+    "y": 520,
+    "wires": [
+      [],
+      []
+    ]
+  },
+  {
+    "id": "2f27c3249fded9f5",
+    "type": "modbus-flex-write",
+    "z": "4a4cd26959b0ef8d",
+    "name": "",
+    "showStatusActivities": false,
+    "showErrors": false,
+    "showWarnings": true,
+    "server": "8f983c32e9c13fcf",
+    "emptyMsgOnFail": false,
+    "keepMsgProperties": false,
+    "delayOnStart": false,
+    "startDelayTime": "",
+    "x": 690,
+    "y": 600,
+    "wires": [
+      [],
+      []
+    ]
+  },
+  {
+    "id": "c0e437236a4fe304",
+    "type": "ui-text",
+    "z": "4a4cd26959b0ef8d",
+    "group": "a9dede3297db449d",
+    "order": 0,
+    "width": 0,
+    "height": 0,
+    "name": "Tank Alarm",
+    "label": "Tank Alarm",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "style": false,
+    "font": "",
+    "fontSize": 16,
+    "color": "#717171",
+    "wrapText": false,
+    "className": "",
+    "value": "payload",
+    "valueType": "msg",
+    "x": 890,
+    "y": 60,
+    "wires": []
+  },
+  {
+    "id": "6af2ed342185fcc5",
+    "type": "modbus-read",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Read PLC High-Level Alarm",
+    "topic": "",
+    "showStatusActivities": false,
+    "logIOActivities": false,
+    "showErrors": false,
+    "showWarnings": true,
+    "unitid": "1",
+    "dataType": "Coil",
+    "adr": "2",
+    "quantity": "1",
+    "rate": "1",
+    "rateUnit": "s",
+    "delayOnStart": false,
+    "enableDeformedMessages": false,
+    "startDelayTime": "",
+    "server": "8f983c32e9c13fcf",
+    "useIOFile": false,
+    "ioFile": "",
+    "useIOForPayload": false,
+    "emptyMsgOnFail": false,
+    "x": 910,
+    "y": 140,
+    "wires": [
+      [
+        "d0c4aba3cd4d04f8"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "d0c4aba3cd4d04f8",
+    "type": "function",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Decode PLC Alarm",
+    "func": "const coils = Array.isArray(msg.payload) ? msg.payload : msg.payload?.data;\nif (!Array.isArray(coils) || coils.length < 1) return null;\nmsg.payload = coils[0] ? \"WARNING: High Tank Level\" : \"Tank Level Normal\";\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1100,
+    "y": 140,
+    "wires": [
+      [
+        "c0e437236a4fe304"
+      ]
+    ]
+  },
+  {
+    "id": "40c806e729a182d0",
+    "type": "global-config",
+    "env": [],
+    "modules": {
+      "node-red-contrib-modbus": "5.62.1",
+      "@flowfuse/node-red-dashboard": "1.36.1"
+    }
+  },
+  {
+    "id": "d5ed214acbfe482a",
+    "type": "modbus-read",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Read PLC Control States",
+    "topic": "",
+    "showStatusActivities": false,
+    "logIOActivities": false,
+    "showErrors": false,
+    "showWarnings": true,
+    "unitid": "1",
+    "dataType": "Coil",
+    "adr": "8",
+    "quantity": "2",
+    "rate": "1",
+    "rateUnit": "s",
+    "delayOnStart": false,
+    "enableDeformedMessages": false,
+    "startDelayTime": "",
+    "server": "8f983c32e9c13fcf",
+    "useIOFile": false,
+    "ioFile": "",
+    "useIOForPayload": false,
+    "emptyMsgOnFail": false,
+    "x": 170,
+    "y": 720,
+    "wires": [
+      [
+        "0d95f10d48d84316"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "0d95f10d48d84316",
+    "type": "function",
+    "z": "4a4cd26959b0ef8d",
+    "name": "Sync Dashboard Switches",
+    "func": "const coils = Array.isArray(msg.payload) ? msg.payload : msg.payload?.data;\nif (!Array.isArray(coils) || coils.length < 2) return null;\nreturn [{ payload: Boolean(coils[0]) }, { payload: Boolean(coils[1]) }];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 445,
+    "y": 720,
+    "wires": [
+      [
+        "6afc740f556b3d55"
+      ],
+      [
+        "bc8c487f2bc3a746"
+      ]
+    ]
+  }
+]
