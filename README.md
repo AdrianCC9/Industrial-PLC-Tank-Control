@@ -67,7 +67,7 @@ The dashboard should be accessible at `http://localhost:1880/dashboard/tank-cont
 4. Import/deploy `node-red/tank-dashboard.json`; verify the Modbus client is set to `127.0.0.1:5020`.
 5. Enable Automatic Mode and verify the tank fills and drains. The simulated Stop switch must disable both valves.
 
-The **native OpenPLC Editor project files are not yet included in this repository**; they must be exported/copied from the author's local `~/Documents/AutomatedTankControl` folder before another developer can build the controller from scratch.
+The native OpenPLC Editor project is included at the repository root. Open `project.json` in OpenPLC Editor; the source POUs are under `pous/`, device configuration is under `devices/`, and generated Runtime v4 sources are under `build/`.
 
 ## Verification
 
@@ -80,7 +80,6 @@ Already observed:
 Still to verify:
 - Coil 2 reads 1 when the tank level reaches 75–80%, then 0 below 75%
 - Updated dashboard alarm source and both switch feedback paths
-- Native PLC project files are committed
 - Optional Python logger and representative CSV samples, if implemented
 
 To continuously observe coil 2, omit the `-1` single-poll flag:
