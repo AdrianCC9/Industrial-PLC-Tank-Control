@@ -1,9 +1,22 @@
 .DS_Store
 **/.DS_Store
 
-# Python environments and generated cache files
+# OpenPLC-generated output
+build/
+
+# Node-RED runtime state
+node_modules/
+.node-red/
+flows_cred.json
+
+# Python environments and caches
 .venv/
 **/.venv/
 __pycache__/
 **/__pycache__/
 *.py[cod]
+
+# Editor and runtime noise
+.idea/
+.vscode/
+*.log
